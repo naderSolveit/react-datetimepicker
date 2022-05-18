@@ -23,6 +23,8 @@ class DatePicker extends React.Component {
           maxDate={this.props.maxDate}
           autoApply={this.props.autoApply}
           standalone={this.props.standalone}
+          dateSelectedNoTimeCallback={this.props.dateSelectedNoTimeCallback}
+          showAllBtns={this.props.showAllBtns}
         />
       );
     }

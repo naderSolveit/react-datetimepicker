@@ -114,6 +114,8 @@ class Cell extends React.Component {
     if (pastMaxDate(this.props.cellDay, this.props.maxDate, false)) {
       return;
     }
+    console.log('this.props.cellDay', this.props.cellDay)
+    console.log('this.props.mode', this.props.mode)
     this.props.dateSelectedNoTimeCallback(this.props.cellDay, this.props.mode);
   }
 

@@ -63,6 +63,16 @@ class Wrapper extends React.Component {
           maxDate={maxDate}
           applyCallback={this.applyCallback}
           rangeCallback={this.rangeCallback}
+          onChangeVisibility={(visibility, dateSelectCallback) => {
+            console.log("visibility ", visibility)
+            console.log('dateSelectCallback ', dateSelectCallback)
+            let start = moment(new Date(2005, 2, 20, 0, 0, 0, 0));
+            let end = moment(new Date(2007, 8, 20, 0, 0, 0, 0));
+            setTimeout(() => {
+              dateSelectCallback(start, "start")
+              dateSelectCallback(end, "end")
+            }, [5000])
+          }}
           smartMode
         >
           <FormControl
@@ -507,6 +517,7 @@ class Wrapper extends React.Component {
     return (
       <div id="DateTimeRangeContainerStandalone">
         <br />
+        <h1>STANDALONE</h1>
         <p> <b>Standalone</b> DateTime picker. Values are {this.state.start.format('DD-MM-YYYY HH:mm')} and {this.state.end.format('DD-MM-YYYY HH:mm')} </p>
         <DateTimeRangeContainer
           ranges={ranges}
@@ -517,6 +528,7 @@ class Wrapper extends React.Component {
           applyCallback={this.applyCallback}
           rangeCallback={this.rangeCallback}
           autoApply
+          showAllBtns
           descendingYears={descendingYears}
           years={[2010, 2020]}
           standalone
@@ -549,6 +561,8 @@ class Wrapper extends React.Component {
     let local = {
       format: 'DD-MM-YYYY HH:mm',
       sundayFirst: false,
+      close: (dateSelectCallback) => <h1 onClick={() => console.log("dateSelectCallback ", dateSelectCallback)}>Close</h1>,
+      cancel: <h1>Cancel</h1>
     };
     let maxDate = moment(end).add(24, 'hour');
     let pickersRender = <div>

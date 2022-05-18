@@ -67,6 +67,8 @@ class DateTimeRangePicker extends React.Component {
       this.updateStartEndAndLabels(this.props.start, this.props.end, true)
     )
     }
+
+    this.props.dateSelectedCallback(this.dateSelectedNoTimeCallback);
   }
 
   applyCallback() {
@@ -454,6 +456,7 @@ class DateTimeRangePicker extends React.Component {
         darkMode={this.props.darkMode}
         standalone={this.props.standalone}
         twelveHoursClock={this.props.twelveHoursClock}
+        showAllBtns={this.props.showAllBtns}
       />
     );
   }
@@ -491,6 +494,7 @@ class DateTimeRangePicker extends React.Component {
         darkMode={this.props.darkMode}
         standalone={this.props.standalone}
         twelveHoursClock={this.props.twelveHoursClock}
+        showAllBtns={this.props.showAllBtns}
       />
     );
   }

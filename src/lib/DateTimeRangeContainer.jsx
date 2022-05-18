@@ -17,6 +17,7 @@ class DateTimeRangeContainer extends React.Component {
       y: 0,
       screenWidthToTheRight: 0,
       containerClassName: '',
+      dateSelectedNoTimeCallback: null
     };
     let propValidationReturn = propValidation(this.props);
     if (propValidationReturn !== true) {
@@ -27,6 +28,7 @@ class DateTimeRangeContainer extends React.Component {
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.changeVisibleState = this.changeVisibleState.bind(this);
     this.keyDown = this.keyDown.bind(this);
+    this.dateSelectedNoTimeCallbackSetter = this.dateSelectedNoTimeCallbackSetter.bind(this);
   }
 
   componentDidMount() {
@@ -47,6 +49,10 @@ class DateTimeRangeContainer extends React.Component {
     if (prevProps.leftMode !== this.props.leftMode || prevProps.centerMode !== this.props.centerMode) {
       this.resize();
     }
+  }
+
+  dateSelectedNoTimeCallbackSetter(dateSelectedCallback) {
+    this.state.dateSelectedNoTimeCallback = dateSelectedCallback;
   }
 
   resize() {
@@ -113,13 +119,19 @@ class DateTimeRangeContainer extends React.Component {
       }
       document.removeEventListener('click', this.handleOutsideClick, false);
       this.changeVisibleState();
+      if (this.props.onClickingOutside) this.props.onClickingOutside(e);
     }
   }
 
   changeVisibleState() {
-    this.setState(prevState => ({
-      visible: !prevState.visible,
-    }));
+    this.setState(prevState => {
+      if (this.props.onChangeVisibility) {
+        this.props.onChangeVisibility(!prevState.visible, this.state.dateSelectedNoTimeCallback);
+      }
+      return {
+        visible: !prevState.visible,
+      };
+    });
   }
 
   shouldShowPicker() {
@@ -160,6 +172,8 @@ class DateTimeRangeContainer extends React.Component {
         forceMobileMode={this.props.forceMobileMode}
         standalone={this.props.standalone}
         twelveHoursClock={this.props.twelveHoursClock == true}
+        dateSelectedCallback={this.dateSelectedNoTimeCallbackSetter}
+        showAllBtns={this.props.showAllBtns}
       />
     );
   }
@@ -220,7 +234,10 @@ DateTimeRangeContainer.propTypes = {
   leftMode: PropTypes.bool,
   centerMode: PropTypes.bool,
   standalone: PropTypes.bool,
-  twelveHoursClock: PropTypes.bool
+  twelveHoursClock: PropTypes.bool,
+  onClickingOutside: PropTypes.func | undefined,
+  onChangeVisibility: PropTypes.func | undefined,
+  showAllBtns: PropTypes.bool
 };
 
 export default DateTimeRangeContainer;
